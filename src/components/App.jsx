@@ -21,6 +21,16 @@ class App extends Component {
 
   // ********************* Methods **************
 
+  componentDidMount() {
+    if (localStorage.getItem('Contacts') !== null)
+      this.setState({ contacts: JSON.parse(localStorage.getItem('Contacts')) });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts)
+      localStorage.setItem('Contacts', JSON.stringify(this.state.contacts));
+  }
+
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -44,7 +54,7 @@ class App extends Component {
       contacts: contactCopy,
       filter: '',
     });
-    console.log(`Signed up as: ${this.state.name}`);
+    console.log(`Signed up as: ${name}`);
   };
 
   handleFilter = (filter, array) => {
